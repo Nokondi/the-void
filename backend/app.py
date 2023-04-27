@@ -15,11 +15,11 @@ def scream():
     d = DataModel()
     d.addScream(entered, scr)
     del(d)
-    return "<p>You scream into the void</p>"
+    return "<p>Your scream echoes in the void.</p>"
 
 @app.route("/gaze", methods=["POST"])
 def gaze():
     st = request.form['search_term']
     d = DataModel()
     result = d.gazeIntoVoid(st)
-    return "<p>When you gaze long into the abyss, the abyss gazes also into you.</p>"
+    return "<p>When you gaze long into the void, the void gazes also into you.</p>"
