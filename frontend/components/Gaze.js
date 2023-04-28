@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 
+import SubmitButton from './SubmitButton';
+
 export default function Gaze() {
 
     const [text, onChangeText] = useState('')
@@ -17,6 +19,7 @@ export default function Gaze() {
                 onChangeText={onChangeText}
                 value={text}
             />
+            <SubmitButton />
         </View>
     );
 }
@@ -33,7 +36,7 @@ const styles = StyleSheet.create({
         padding: 10,
         margin: 20,
         borderColor: "#5B639A",
-        borderWidth: 2,
+        borderWidth: 3,
         borderStyle: 'solid',
         borderRadius: 10,
         width: '100%'
