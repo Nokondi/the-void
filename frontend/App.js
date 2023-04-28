@@ -2,6 +2,9 @@ import React, {useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Switch } from 'react-native';
 
+import Gaze from './components/Gaze';
+import Scream from './components/Scream';
+
 export default function App() {
 
     const [scream, setScream] = useState(true);
@@ -15,15 +18,20 @@ export default function App() {
             <Switch 
                 onValueChange={toggleSwitch}
                 value={scream}
-                
+                trackColor={{false: '#2F3237', true: '#2F3237'}}
+                thumbColor={scream ? '#5B639A' : '#5B639A'}
+                ios_backgroundColor="#2F3237"
+                activeThumbColor="#5B639A"
             />
             {scream ? (
                 <View>
                     <Text style={styles.switchText}>Scream</Text>
+                    <Scream />
                 </View>
             ) : (
                 <View>
                     <Text style={styles.switchText}>Gaze</Text>
+                    <Gaze />
                 </View>
             )}
             <StatusBar style="auto" />
