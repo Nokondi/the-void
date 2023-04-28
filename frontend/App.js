@@ -15,6 +15,7 @@ export default function App() {
             <Switch 
                 onValueChange={toggleSwitch}
                 value={scream}
+                
             />
             {scream ? (
                 <View>
