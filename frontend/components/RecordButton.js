@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Pressable, StyleSheet, Text } from 'react-native';
 import {Audio} from 'expo-av';
 
 export default function RecordButton() {
