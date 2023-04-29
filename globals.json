@@ -1,0 +1,7 @@
+{"dev": {
+    "api": "http://127.0.0.1:5000",
+    "secret_key": "15cr3@my0u5cr3@mw3@115cr3@mf0r1c3cr3@m"
+},
+"prod": {
+    "api": ""
+}}
