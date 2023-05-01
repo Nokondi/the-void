@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Switch } from 'react-native';
+import { StyleSheet, View, Switch, Dimensions } from 'react-native';
 
 import Gaze from './components/Gaze';
 import Scream from './components/Scream';
+
+const {width, height} = Dimensions.get('window');
 
 export default function App() {
 
@@ -15,24 +17,20 @@ export default function App() {
 
     return (
         <View style={styles.container}>
-            <Switch 
-                onValueChange={toggleSwitch}
-                value={scream}
-                trackColor={{false: '#2F3237', true: '#2F3237'}}
-                thumbColor={scream ? '#5B639A' : '#5B639A'}
-                ios_backgroundColor="#2F3237"
-                activeThumbColor="#5B639A"
-            />
+            <View style={styles.switchContainer}>
+                <Switch 
+                    onValueChange={toggleSwitch}
+                    value={scream}
+                    trackColor={{false: '#2F3237', true: '#2F3237'}}
+                    thumbColor={scream ? '#5B639A' : '#5B639A'}
+                    ios_backgroundColor="#2F3237"
+                    activeThumbColor="#5B639A"
+                />
+            </View>
             {scream ? (
-                <View style={styles.container}>
-                    <Text style={styles.switchText}>Scream</Text>
-                    <Scream />
-                </View>
+                <Scream />
             ) : (
-                <View style={styles.container}>
-                    <Text style={styles.switchText}>Gaze</Text>
-                    <Gaze />
-                </View>
+                <Gaze />
             )}
             <StatusBar style="auto" />
         </View>
@@ -43,8 +41,14 @@ const styles = StyleSheet.create({
 container: {
     flex: 1,
     backgroundColor: '#000',
-    alignItems: 'center',
     justifyContent: 'center',
+    paddingHorizontal: '10%',
+},
+switchContainer: {
+    flex: 1/3,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: '2%',
 },
 switchText: {
     color: '#fff',

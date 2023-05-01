@@ -16,7 +16,8 @@ const styles = StyleSheet.create({
         borderWidth: 3,
         borderStyle: 'solid',
         borderColor: '#422B4F',
-        margin: 20,
+        alignItems: 'center',
+        width: '30%',
     },
     buttonText: {
         color: '#fff',

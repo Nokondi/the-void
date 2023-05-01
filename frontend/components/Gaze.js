@@ -37,7 +37,7 @@ export default function Gaze() {
                     <FlashList 
                         data={response}
                         renderItem={({ item }) => 
-                            <View>
+                            <View style={styles.listItem}>
                             <Text style={styles.dateText}>{item[0]}</Text>
                             <Text style={styles.responseText}>{item[1]}</Text>
                             </View>}
@@ -45,7 +45,7 @@ export default function Gaze() {
                     />
                 </View>
             ) : (
-                <View>
+                <View style={styles.container}>
                     <TextInput 
                         style={styles.textBox}
                         editable
@@ -56,7 +56,9 @@ export default function Gaze() {
                         onChangeText={onChangeText}
                         value={text}
                     />
-                    <SubmitButton onButtonPressed={gazeIntoVoid} />
+                    <View style={styles.buttonContainer}>
+                        <SubmitButton onButtonPressed={gazeIntoVoid} />
+                    </View>
                 </View>
             )}
         </View>
@@ -66,33 +68,45 @@ export default function Gaze() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
         justifyContent: 'center',
-        width: '100%',
+    },
+    buttonContainer: {
+        flex: 1,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        padding: '1%',
     },
     textBox: {
+        flex: 1,
         backgroundColor: '#fff',
         color: "#000",
-        padding: 10,
-        margin: 20,
+        padding: '2%',
+        margin: '2%',
         borderColor: "#5B639A",
         borderWidth: 3,
         borderStyle: 'solid',
         borderRadius: 10,
-        width: '100%'
     },
     listContainer: {
-        width: '100%',
+        flex: 1,
+        margin: 20,
+        justifyContent: 'center',
     },
     dateText: {
         color: '#fff',
         fontSize: 16,
-        paddingTop: 10,
+        paddingTop: '2%',
         fontStyle: 'italic',
     },
     responseText: {
         color: '#fff',
         fontSize: 24,
-        paddingLeft: 40,
+        paddingLeft: '5%',
+        paddingBottom: '1%',
+    },
+    listItem: {
+        flex:1,
+        borderBottomColor: '#5B639A',
+        borderBottomWidth: 3,
     },
 });

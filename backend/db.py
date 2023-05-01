@@ -1,15 +1,15 @@
 import sqlite3
 from datetime import datetime
 
-# TODO: DEBUG ONLY! REMOVE BEFORE DEPLOYMENT
 def init_db():
     con = sqlite3.connect("data.db")
     cur = con.cursor()
     cur.execute("""
-        CREATE TABLE scream (
-            entered,
-            content
-        )
+        CREATE TABLE IF NOT EXISTS scream (
+            entered TEXT,
+            content TEXT,
+            audio BLOB
+        );
     """)
 
 # TODO: DEBUG ONLY! REMOVE BEFORE DEPLOYMENT
@@ -17,7 +17,7 @@ def clear_db():
     con = sqlite3.connect("data.db")
     cur = con.cursor()
     cur.execute("""
-        DROP TABLE scream
+        DROP TABLE IF EXISTS scream;
     """)
 
 class DataModel:
@@ -57,3 +57,5 @@ class DataModel:
             print("Error")
         return None
     
+clear_db()
+init_db()

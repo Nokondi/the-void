@@ -2,12 +2,45 @@ import React, {useState} from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 
 import SubmitButton from './SubmitButton';
+import RecordButton from './RecordButton';
 
 export default function Scream() {
 
     const [text, onChangeText] = useState('');
     const [response, setResponse] = useState('');
     const [screamed, setScreamed] = useState(false);
+
+    const [recording, setRecording] = useState();
+
+    async function startRecording() {
+        try {
+          console.log('Requesting permissions..');
+          await Audio.requestPermissionsAsync();
+          await Audio.setAudioModeAsync({
+            allowsRecordingIOS: true,
+            playsInSilentModeIOS: true,
+          });
+    
+          console.log('Starting recording..');
+          const { recording } = await Audio.Recording.createAsync( Audio.RecordingOptionsPresets.HIGH_QUALITY
+          );
+          setRecording(recording);
+          console.log('Recording started');
+        } catch (err) {
+          console.error('Failed to start recording', err);
+        }
+      }
+    
+      async function stopRecording() {
+        console.log('Stopping recording..');
+        setRecording(undefined);
+        await recording.stopAndUnloadAsync();
+        await Audio.setAudioModeAsync({
+          allowsRecordingIOS: false,
+        });
+        const uri = recording.getURI();
+        console.log('Recording stopped and stored at', uri);
+      }
 
     const submitScream = () => {
         fetch('http://127.0.0.1:5000/scream', {

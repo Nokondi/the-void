@@ -7,14 +7,13 @@ app = Flask(__name__)
 
 app.secret_key = "15cr3@my0u5cr3@mw3@115cr3@mf0r1c3cr3@m"
 
-CORS(app)
+cors = CORS(app)
 
 @app.route("/")
 def blank_page():
     return "<p>Error: access denied</p>"
 
 @app.route("/scream", methods=["POST"])
-@cross_origin()
 def scream():
     entered = datetime.now()
     scr = request.json['scream']
@@ -25,7 +24,6 @@ def scream():
     return response
 
 @app.route("/gaze", methods=["POST"])
-@cross_origin()
 def gaze():
     print(request)
     st = request.json['gaze']
