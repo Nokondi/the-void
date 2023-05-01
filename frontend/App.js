@@ -24,12 +24,12 @@ export default function App() {
                 activeThumbColor="#5B639A"
             />
             {scream ? (
-                <View>
+                <View style={styles.container}>
                     <Text style={styles.switchText}>Scream</Text>
                     <Scream />
                 </View>
             ) : (
-                <View>
+                <View style={styles.container}>
                     <Text style={styles.switchText}>Gaze</Text>
                     <Gaze />
                 </View>

@@ -30,7 +30,7 @@ class DataModel:
         self.con.close()
 
     def addScream(self, entered: datetime, scream: str):
-        ent = entered.strftime("%I:%M %p, %A, %d %B, %Y")
+        ent = entered.strftime("%I:%M %p, %A, %d %B %Y")
         sql_stmt = """
             INSERT INTO scream (entered, content) VALUES (
                 '{}', '{}'

@@ -1,11 +1,13 @@
 import React, {useState} from 'react';
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 
 import SubmitButton from './SubmitButton';
 
 export default function Scream() {
 
-    const [text, onChangeText] = useState('')
+    const [text, onChangeText] = useState('');
+    const [response, setResponse] = useState('');
+    const [screamed, setScreamed] = useState(false);
 
     const submitScream = () => {
         fetch('http://127.0.0.1:5000/scream', {
@@ -21,23 +23,36 @@ export default function Scream() {
         }).then((response) => { 
             return response.text();
         }).then((text) => {
-            console.log(text);
+            setResponse(JSON.parse(text)['content']);
+            setScreamed(true);
         });
     }
 
     return (
         <View style={styles.container}>
-            <TextInput 
-                style={styles.textBox}
-                editable
-                multiline
-                numberOfLines={5}
-                selectTextOnFocus
-                placeholder='What do you scream?'
-                onChangeText={onChangeText}
-                value={text}
-            />
-            <SubmitButton onButtonPressed={submitScream} />
+            {screamed ? (
+                <View style={styles.container}>
+                    <Text style={styles.responseText}>
+                        {response}
+                    </Text>
+                </View>
+
+            ) : (
+                <View style={styles.container}>
+                    <TextInput 
+                        style={styles.textBox}
+                        editable
+                        multiline
+                        numberOfLines={5}
+                        selectTextOnFocus
+                        placeholder='What do you scream?'
+                        onChangeText={onChangeText}
+                        value={text}
+                    />
+                    <SubmitButton onButtonPressed={submitScream} />
+                </View>
+            )}
+
         </View>
     );
 }
@@ -47,6 +62,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        height: 'auto',
     },
     textBox: {
         backgroundColor: '#fff',
@@ -58,5 +74,10 @@ const styles = StyleSheet.create({
         borderStyle: 'solid',
         borderRadius: 10,
         width: '100%'
+    },
+    responseText: {
+        color: '#fff',
+        fontSize: 24,
+        padding: 10,
     },
 });
