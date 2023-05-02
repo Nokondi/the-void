@@ -7,8 +7,13 @@ def init_db():
     cur.execute("""
         CREATE TABLE IF NOT EXISTS scream (
             entered TEXT,
-            content TEXT,
-            audio BLOB
+            content TEXT
+        );
+    """)
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS scream_audio (
+            entered TEXT,
+            content BLOB
         );
     """)
 
@@ -18,6 +23,9 @@ def clear_db():
     cur = con.cursor()
     cur.execute("""
         DROP TABLE IF EXISTS scream;
+    """)
+    cur.execute("""
+        DROP TABLE IF EXISTS scream_audio;
     """)
 
 class DataModel:
@@ -43,6 +51,10 @@ class DataModel:
         # TODO: UPDATE EXCEPTION HERE
         except:
             print("Error")
+
+    def addScreamAudio(self, entered, scream):
+        # TODO: add this method
+        pass
 
     def gazeIntoVoid(self, search_term: str):
         sql_stmt = """
