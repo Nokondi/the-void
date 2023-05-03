@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { Pressable, StyleSheet, Text } from 'react-native';
 import {Audio} from 'expo-av';
 
-export default function RecordButton() {
+export default function RecordButton({onRecordPressed}) {
 
     const [recording, setRecording] = useState();
 

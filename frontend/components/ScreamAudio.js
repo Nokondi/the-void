@@ -6,10 +6,9 @@ import RecordButton from './RecordButton';
 
 export default function Scream() {
 
-    const [text, onChangeText] = useState('');
+    const [screamURI, setScreamURI] = useState('');
     const [response, setResponse] = useState('');
     const [screamed, setScreamed] = useState(false);
-
     const [recording, setRecording] = useState();
 
     async function startRecording() {
