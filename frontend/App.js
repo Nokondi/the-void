@@ -4,8 +4,7 @@ import { StyleSheet, View, Switch, Dimensions } from 'react-native';
 
 import Gaze from './components/Gaze';
 import Scream from './components/Scream';
-
-const {width, height} = Dimensions.get('window');
+import ScreamAudio from './components/ScreamAudio'
 
 export default function App() {
 
@@ -28,7 +27,7 @@ export default function App() {
                 />
             </View>
             {scream ? (
-                <Scream />
+                <ScreamAudio />
             ) : (
                 <Gaze />
             )}

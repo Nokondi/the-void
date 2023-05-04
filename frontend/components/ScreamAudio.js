@@ -1,34 +1,36 @@
 import React, {useState} from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
+import {Audio} from 'expo-av';
 
 import SubmitButton from './SubmitButton';
 import RecordButton from './RecordButton';
 
-export default function Scream() {
+export default function ScreamAudio() {
 
     const [screamURI, setScreamURI] = useState('');
     const [response, setResponse] = useState('');
     const [screamed, setScreamed] = useState(false);
     const [recording, setRecording] = useState();
+    const [playing, setPlaying] = useState(false);
 
     async function startRecording() {
         try {
-          console.log('Requesting permissions..');
-          await Audio.requestPermissionsAsync();
-          await Audio.setAudioModeAsync({
-            allowsRecordingIOS: true,
-            playsInSilentModeIOS: true,
-          });
+            console.log('Requesting permissions..');
+            await Audio.requestPermissionsAsync();
+            await Audio.setAudioModeAsync({
+                allowsRecordingIOS: true,
+                playsInSilentModeIOS: true,
+            });
     
-          console.log('Starting recording..');
-          const { recording } = await Audio.Recording.createAsync( Audio.RecordingOptionsPresets.HIGH_QUALITY
-          );
-          setRecording(recording);
-          console.log('Recording started');
+            console.log('Starting recording..');
+            const { recording } = await Audio.Recording.createAsync( Audio.RecordingOptionsPresets.HIGH_QUALITY
+            );
+            setRecording(recording);
+            console.log('Recording started');
         } catch (err) {
-          console.error('Failed to start recording', err);
+            console.error('Failed to start recording', err);
         }
-      }
+    }
     
       async function stopRecording() {
         console.log('Stopping recording..');
@@ -38,6 +40,7 @@ export default function Scream() {
           allowsRecordingIOS: false,
         });
         const uri = recording.getURI();
+        setScreamURI(uri)
         console.log('Recording stopped and stored at', uri);
       }
 
@@ -60,6 +63,13 @@ export default function Scream() {
         });
     }
 
+    async function playAudio () {
+        console.log('Loading Sound');
+        const { sound } = await Audio.Sound.createAsync( screamURI );
+        console.log('Playing Sound');
+        await sound.playAsync();
+    }
+
     return (
         <View style={styles.container}>
             {screamed ? (
@@ -70,21 +80,10 @@ export default function Scream() {
                 </View>
 
             ) : (
-                <View style={styles.container}>
-                    <TextInput 
-                        style={styles.textBox}
-                        editable
-                        multiline
-                        numberOfLines={5}
-                        selectTextOnFocus
-                        placeholder='What do you scream?'
-                        onChangeText={onChangeText}
-                        value={text}
-                    />
-                    <View style={styles.buttonContainer}>
-                        <SubmitButton onButtonPressed={submitScream} />
-                    </ View>
-                </View>
+                <View style={styles.buttonContainer}>
+                    <RecordButton onRecordPressed={startRecording} onRecordReleased={stopRecording} />
+                    <SubmitButton onButtonPressed={playAudio} />
+                </ View>
             )}
 
         </View>
