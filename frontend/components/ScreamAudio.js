@@ -32,17 +32,18 @@ export default function ScreamAudio() {
         }
     }
     
-      async function stopRecording() {
+    async function stopRecording() {
         console.log('Stopping recording..');
         setRecording(undefined);
         await recording.stopAndUnloadAsync();
         await Audio.setAudioModeAsync({
-          allowsRecordingIOS: false,
+            allowsRecordingIOS: false,
         });
         const uri = recording.getURI();
-        setScreamURI(uri)
+        setScreamURI(uri);
         console.log('Recording stopped and stored at', uri);
-      }
+        submitAudio(uri);
+    }
 
     const submitScream = () => {
         fetch('http://127.0.0.1:5000/scream', {
@@ -56,6 +57,23 @@ export default function ScreamAudio() {
                 scream: text
             })
         }).then((response) => { 
+            return response.text();
+        }).then((text) => {
+            setResponse(JSON.parse(text)['content']);
+            setScreamed(true);
+        });
+    }
+
+    async function submitAudio(uri) {
+        console.log('Loading Sound');
+        const soundBlob = await fetch(uri).then((r) => r.blob());
+        fetch('http://127.0.0.1:5000/screamAudio', {
+            method: "POST",
+            headers: {
+                "Authorization": "15cr3@my0u5cr3@mw3@115cr3@mf0r1c3cr3@m"
+            },
+            body: soundBlob
+        }).then((response) => {
             return response.text();
         }).then((text) => {
             setResponse(JSON.parse(text)['content']);

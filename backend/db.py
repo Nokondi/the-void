@@ -44,17 +44,22 @@ class DataModel:
                 '{}', '{}'
             );
         """.format(ent, scream)
-        print(sql_stmt)
         try:
             self.cur.execute(sql_stmt)
             self.con.commit()
-        # TODO: UPDATE EXCEPTION HERE
-        except:
-            print("Error")
+        except sqlite3.Error as error:
+            print(error)
 
     def addScreamAudio(self, entered, scream):
-        # TODO: add this method
-        pass
+        ent = entered.strftime("%I:%M %p, %A, %d %B %Y")
+        sql_stmt = "INSERT INTO scream_audio (entered, content) VALUES (?, ?);"
+        insert_data = (entered, scream)
+        try:
+            self.cur.execute(sql_stmt, insert_data)
+            self.con.commit()
+            print("audio successfully loaded to database")
+        except sqlite3.Error as error:
+            print(error)
 
     def gazeIntoVoid(self, search_term: str):
         sql_stmt = """
@@ -64,10 +69,6 @@ class DataModel:
             self.cur.execute(sql_stmt)
             results = self.cur.fetchall()
             return results
-        # TODO: UPDATE EXCEPTION HERE
-        except:
-            print("Error")
+        except sqlite3.Error as error:
+            print(error)
         return None
-    
-clear_db()
-init_db()

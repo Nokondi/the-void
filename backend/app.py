@@ -15,20 +15,27 @@ def blank_page():
 
 @app.route("/scream", methods=["POST"])
 def scream():
-    entered = datetime.now()
     scr = request.json['scream']
     d = DataModel()
-    d.addScream(entered, scr)
+    d.addScream(datetime.now(), scr)
     del(d)
     response = make_response(jsonify({"content": "Your scream echoes in the void."}), 200)
     return response
 
 @app.route("/gaze", methods=["POST"])
 def gaze():
-    print(request)
     st = request.json['gaze']
     d = DataModel()
     result = d.gazeIntoVoid(st)
     del(d)
     response = make_response(jsonify(result), 200)
+    return response
+
+@app.route("/screamAudio", methods=["POST"])
+def screamAudio():
+    sound = request.get_data()
+    print(request.content_type)
+    d = DataModel()
+    result = d.addScreamAudio(datetime.now(), sound)
+    response = make_response(jsonify({"content": "Your scream echoes in the void."}), 200)
     return response
