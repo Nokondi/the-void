@@ -1,12 +1,26 @@
-import React, {useState} from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import { FlashList } from "@shopify/flash-list";
 
-export default function Gaze() {
+export default function GazeAudio() {
 
     const [text, onChangeText] = useState('')
     const [response, setResponse] = useState('');
     const [gazed, setGazed] = useState(false);
+
+    useEffect(() => {
+        fetch('http://127.0.0.1:5000/gazeAudio', {
+            method: "POST",
+            headers: {
+                "Authorization": "15cr3@my0u5cr3@mw3@115cr3@mf0r1c3cr3@m"
+            }
+        }).then((response) => { 
+            return response.blob();
+        }).then((blob) => {
+            console.log(blob)
+            setResponse(blob);
+        });
+    }, [])
 
     const gazeIntoVoid = () => {
         fetch('http://127.0.0.1:5000/gaze', {

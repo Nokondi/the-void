@@ -4,7 +4,8 @@ import { StyleSheet, View, Switch, Dimensions } from 'react-native';
 
 import Gaze from './components/Gaze';
 import Scream from './components/Scream';
-import ScreamAudio from './components/ScreamAudio'
+import ScreamAudio from './components/ScreamAudio';
+import GazeAudio from './components/GazeAudio';
 
 export default function App() {
 
@@ -29,7 +30,7 @@ export default function App() {
             {scream ? (
                 <ScreamAudio />
             ) : (
-                <Gaze />
+                <GazeAudio />
             )}
             <StatusBar style="auto" />
         </View>

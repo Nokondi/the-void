@@ -1,7 +1,9 @@
-from flask import Flask, request, jsonify, make_response
+from flask import Flask, request, jsonify, make_response, send_file
 from datetime import datetime
 from db import DataModel
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
+from zipfile import is_zipfile
+from os import remove
 
 app = Flask(__name__)
 
@@ -34,8 +36,18 @@ def gaze():
 @app.route("/screamAudio", methods=["POST"])
 def screamAudio():
     sound = request.get_data()
-    print(request.content_type)
     d = DataModel()
-    result = d.addScreamAudio(datetime.now(), sound)
+    d.addScreamAudio(datetime.now(), sound)
     response = make_response(jsonify({"content": "Your scream echoes in the void."}), 200)
     return response
+
+@app.route("/gazeAudio", methods=["POST"])
+def gazeAudio():
+    d = DataModel()
+    result = d.gazeIntoVoidAudio()
+    audio_file = result
+    if is_zipfile(result):
+        audio_file = send_file('audio.zip',
+                                mimetype='zip',
+                                as_attachment=True)
+    return audio_file
