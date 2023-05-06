@@ -41,7 +41,6 @@ class DataModel:
         self.con.close()
 
     def addScream(self, entered: datetime, scream: str):
-        ent = entered.strftime("%I:%M %p, %A, %d %B %Y")
         sql_stmt = "INSERT INTO scream (entered, content) VALUES (?, ?);"
         insert_data = (entered, scream)
         try:
@@ -60,6 +59,16 @@ class DataModel:
         except sqlite3.Error as error:
             print(error)
 
+    def checkRows(self, table):
+        sql_stmt = "SELECT COUNT(*) FROM {};".format(table)
+        try:
+            self.cur.execute(sql_stmt)
+            results = self.cur.fetchone()[0]
+        except sqlite3.Error as error:
+            print(error)
+            results = error
+        return results
+
     def gazeIntoVoid(self, search_term: str):
         sql_stmt = """
             SELECT * FROM scream WHERE content LIKE '%?%'
@@ -67,10 +76,9 @@ class DataModel:
         try:
             self.cur.execute(sql_stmt, (search_term))
             results = self.cur.fetchall()
-            return results
         except sqlite3.Error as error:
-            print(error)
-        return None
+            results = error
+        return results
     
     def gazeIntoVoidAudio(self, offset=0, limit=10):
         if exists('audio.zip'):
@@ -85,7 +93,6 @@ class DataModel:
                 date, time = r[0].split(' ')
                 date = date.split('-')
                 time = time.split('.')[0].split(':')
-                print(time)
                 file_info = zipfile.ZipInfo(filename='scream{}.webm'.format(i), 
                                             date_time=(int(date[0]), 
                                                     int(date[1]), 
@@ -95,7 +102,8 @@ class DataModel:
                                                     int(time[2])))
                 audio_zip.writestr(file_info, r[1])
             audio_zip.close()
+            return_value = 'audio.zip'
         except sqlite3.Error as error:
-            audio_zip = error
+            return_value = error
             print(error)
-        return 'audio.zip'
+        return return_value

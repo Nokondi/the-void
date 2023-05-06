@@ -3,7 +3,7 @@ from datetime import datetime
 from db import DataModel
 from flask_cors import CORS
 from zipfile import is_zipfile
-from os import remove
+from markupsafe import escape
 
 app = Flask(__name__)
 
@@ -17,7 +17,7 @@ def blank_page():
 
 @app.route("/scream", methods=["POST"])
 def scream():
-    scr = request.json['scream']
+    scr = escape(request.json['scream'])
     d = DataModel()
     d.addScream(datetime.now(), scr)
     del(d)
@@ -26,9 +26,18 @@ def scream():
 
 @app.route("/gaze", methods=["POST"])
 def gaze():
-    st = request.json['gaze']
+    st = escape(request.json['gaze'])
     d = DataModel()
     result = d.gazeIntoVoid(st)
+    del(d)
+    response = make_response(jsonify(result), 200)
+    return response
+
+@app.route("/rows", methods=["POST"])
+def returnRows():
+    t = escape(request.json['table'])
+    d = DataModel()
+    result = d.checkRows(t)
     del(d)
     response = make_response(jsonify(result), 200)
     return response
@@ -38,6 +47,7 @@ def screamAudio():
     sound = request.get_data()
     d = DataModel()
     d.addScreamAudio(datetime.now(), sound)
+    del(d)
     response = make_response(jsonify({"content": "Your scream echoes in the void."}), 200)
     return response
 
@@ -47,6 +57,7 @@ def gazeAudio():
     limit = request.json['limit']
     d = DataModel()
     result = d.gazeIntoVoidAudio(offset, limit)
+    del(d)
     audio_file = result
     if is_zipfile(result):
         audio_file = send_file('audio.zip',

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { FlashList } from "@shopify/flash-list";
-import { unzip } from "react-native-zip-archive";
 
 export default function GazeAudio() {
 
@@ -11,8 +10,24 @@ export default function GazeAudio() {
     const [gazeOffset, setGazeOffset] = useState(0);
     const [gazeLimit, setGazeLimit] = useState(10);
     const [screamList, setScreamList] = useState();
+    const [numRows, setNumRows] = useState(0);
 
     useEffect(() => {
+        fetch('http://127.0.0.1:5000/rows', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "15cr3@my0u5cr3@mw3@115cr3@mf0r1c3cr3@m"
+            },
+            body: JSON.stringify({
+                table: 'scream_audio'
+            })
+        }).then((response) => { 
+            return response.text();
+        }).then((text) => {
+            console.log(text)
+            setNumRows(Number(text));
+        });
         fetch('http://127.0.0.1:5000/gazeAudio', {
             method: "POST",
             headers: {
@@ -28,6 +43,7 @@ export default function GazeAudio() {
         }).then((blob) => {
             console.log(blob)
             setResponse(blob);
+            setGazeOffset(gazeLimit);
         });
     }, [])
 
@@ -51,7 +67,23 @@ export default function GazeAudio() {
     }
 
     const gazeDeeper = () => {
-
+        fetch('http://127.0.0.1:5000/gazeAudio', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "15cr3@my0u5cr3@mw3@115cr3@mf0r1c3cr3@m"
+            },
+            body: JSON.stringify({
+                offset: gazeOffset,
+                limit: gazeLimit
+            })
+        }).then((response) => { 
+            return response.blob();
+        }).then((blob) => {
+            console.log(blob)
+            setResponse(blob);
+            setGazeOffset(gazeLimit);
+        });
     }
 
     return (
