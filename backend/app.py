@@ -43,8 +43,10 @@ def screamAudio():
 
 @app.route("/gazeAudio", methods=["POST"])
 def gazeAudio():
+    offset = request.json['offset']
+    limit = request.json['limit']
     d = DataModel()
-    result = d.gazeIntoVoidAudio()
+    result = d.gazeIntoVoidAudio(offset, limit)
     audio_file = result
     if is_zipfile(result):
         audio_file = send_file('audio.zip',

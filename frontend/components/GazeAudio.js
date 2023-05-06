@@ -1,19 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { FlashList } from "@shopify/flash-list";
+import { unzip } from "react-native-zip-archive";
 
 export default function GazeAudio() {
 
     const [text, onChangeText] = useState('')
-    const [response, setResponse] = useState('');
+    const [response, setResponse] = useState();
     const [gazed, setGazed] = useState(false);
+    const [gazeOffset, setGazeOffset] = useState(0);
+    const [gazeLimit, setGazeLimit] = useState(10);
+    const [screamList, setScreamList] = useState();
 
     useEffect(() => {
         fetch('http://127.0.0.1:5000/gazeAudio', {
             method: "POST",
             headers: {
+                "Content-Type": "application/json",
                 "Authorization": "15cr3@my0u5cr3@mw3@115cr3@mf0r1c3cr3@m"
-            }
+            },
+            body: JSON.stringify({
+                offset: gazeOffset,
+                limit: gazeLimit
+            })
         }).then((response) => { 
             return response.blob();
         }).then((blob) => {
@@ -26,7 +35,6 @@ export default function GazeAudio() {
         fetch('http://127.0.0.1:5000/gaze', {
             method: "POST",
             headers: {
-                "Accept": "application/json",
                 "Content-Type": "application/json",
                 "Authorization": "15cr3@my0u5cr3@mw3@115cr3@mf0r1c3cr3@m"
             },
@@ -40,6 +48,10 @@ export default function GazeAudio() {
             setResponse(JSON.parse(text));
             setGazed(true);
         });
+    }
+
+    const gazeDeeper = () => {
+
     }
 
     return (

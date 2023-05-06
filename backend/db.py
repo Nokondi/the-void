@@ -62,23 +62,23 @@ class DataModel:
 
     def gazeIntoVoid(self, search_term: str):
         sql_stmt = """
-            SELECT * FROM scream WHERE content LIKE '%{}%'
-        """.format(search_term)
+            SELECT * FROM scream WHERE content LIKE '%?%'
+        """
         try:
-            self.cur.execute(sql_stmt)
+            self.cur.execute(sql_stmt, (search_term))
             results = self.cur.fetchall()
             return results
         except sqlite3.Error as error:
             print(error)
         return None
     
-    def gazeIntoVoidAudio(self):
+    def gazeIntoVoidAudio(self, offset=0, limit=10):
         if exists('audio.zip'):
             remove('audio.zip')
-        sql_stmt = "SELECT * FROM scream_audio"
+        sql_stmt = "SELECT * FROM scream_audio LIMIT ?, ?"
         audio_zip = None
         try:
-            self.cur.execute(sql_stmt)
+            self.cur.execute(sql_stmt, (limit, offset))
             results = self.cur.fetchall()
             audio_zip = zipfile.ZipFile('audio.zip', 'w', compression=zipfile.ZIP_STORED)
             for i, r in enumerate(results):
