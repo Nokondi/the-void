@@ -2,65 +2,52 @@ from flask import Flask, request, jsonify, make_response, send_file
 from datetime import datetime
 from db import DataModel
 from flask_cors import CORS
+from flask_socketio import SocketIO, emit
 from zipfile import is_zipfile
 from markupsafe import escape
 
 app = Flask(__name__)
 
-app.secret_key = "15cr3@my0u5cr3@mw3@115cr3@mf0r1c3cr3@m"
-
+socketio = SocketIO(app, cors_allowed_origins="*")
 cors = CORS(app)
 
-@app.route("/")
-def blank_page():
-    return "<p>Error: access denied</p>"
-
-@app.route("/scream", methods=["POST"])
-def scream():
-    scr = escape(request.json['scream'])
+@socketio.event
+def scream(scream_text):
+    print(scream_text)
     d = DataModel()
-    d.addScream(datetime.now(), scr)
+    d.addScream(datetime.now(), escape(scream_text))
     del(d)
-    response = make_response(jsonify({"content": "Your scream echoes in the void."}), 200)
-    return response
+    emit('scream', {'data': 'Your scream echoes in the void.'})
 
-@app.route("/gaze", methods=["POST"])
-def gaze():
-    st = escape(request.json['gaze'])
+@socketio.event
+def gaze(gaze_text):
+    print(gaze_text)
     d = DataModel()
-    result = d.gazeIntoVoid(st)
+    result = d.gazeIntoVoid(escape(gaze_text))
+    print(result)
     del(d)
-    response = make_response(jsonify(result), 200)
-    return response
+    emit('gaze', result)
 
-@app.route("/rows", methods=["POST"])
-def returnRows():
-    t = escape(request.json['table'])
+@socketio.event
+def rows(table):
     d = DataModel()
-    result = d.checkRows(t)
+    result = d.checkRows(escape(table))
     del(d)
-    response = make_response(jsonify(result), 200)
-    return response
+    emit('rows', result)
 
-@app.route("/screamAudio", methods=["POST"])
-def screamAudio():
-    sound = request.get_data()
+@socketio.event
+def screamAudio(sound):
+    print('scream received')
     d = DataModel()
     d.addScreamAudio(datetime.now(), sound)
     del(d)
-    response = make_response(jsonify({"content": "Your scream echoes in the void."}), 200)
-    return response
+    emit('screamAudio', {'data': 'Your scream echoes in the void.'})
 
-@app.route("/gazeAudio", methods=["POST"])
-def gazeAudio():
-    offset = request.json['offset']
-    limit = request.json['limit']
+@socketio.event
+def gazeAudio(offset, limit):
+    print(offset, limit)
     d = DataModel()
-    result = d.gazeIntoVoidAudio(offset, limit)
+    results = d.gazeIntoVoidAudio(offset, limit)
     del(d)
-    audio_file = result[0]
-    if is_zipfile(result):
-        audio_file = send_file('audio.zip',
-                                mimetype='zip',
-                                as_attachment=True)
-    return audio_file
+    for r in results:
+        emit('gazeAudio', {'date': r[0], 'file': r[1]})

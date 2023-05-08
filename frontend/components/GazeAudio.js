@@ -1,100 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { FlashList } from "@shopify/flash-list";
+import {Audio} from 'expo-av';
 
-export default function GazeAudio() {
+import { socket } from '../socket';
 
-    const [text, onChangeText] = useState('')
-    const [response, setResponse] = useState();
-    const [gazed, setGazed] = useState(false);
+import SubmitButton from './SubmitButton';
+
+export default function GazeAudio( {gaze_response} ) {
+
     const [gazeOffset, setGazeOffset] = useState(0);
     const [gazeLimit, setGazeLimit] = useState(10);
-    const [screamList, setScreamList] = useState();
-    const [numRows, setNumRows] = useState(0);
+    const [playing, setPlaying] = useState(false);
 
     useEffect(() => {
-        fetch('http://127.0.0.1:5000/rows', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "15cr3@my0u5cr3@mw3@115cr3@mf0r1c3cr3@m"
-            },
-            body: JSON.stringify({
-                table: 'scream_audio'
-            })
-        }).then((response) => { 
-            return response.text();
-        }).then((text) => {
-            console.log(text)
-            setNumRows(Number(text));
-        });
-        fetch('http://127.0.0.1:5000/gazeAudio', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "15cr3@my0u5cr3@mw3@115cr3@mf0r1c3cr3@m"
-            },
-            body: JSON.stringify({
-                offset: gazeOffset,
-                limit: gazeLimit
-            })
-        }).then((response) => { 
-            return response.blob();
-        }).then((blob) => {
-            console.log(blob)
-            setResponse(blob);
-            setGazeOffset(gazeLimit);
-        });
+        gazeIntoVoid();
     }, [])
 
     const gazeIntoVoid = () => {
-        fetch('http://127.0.0.1:5000/gaze', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "15cr3@my0u5cr3@mw3@115cr3@mf0r1c3cr3@m"
-            },
-            body: JSON.stringify({
-                gaze: text
-            })
-        }).then((response) => { 
-            return response.text();
-        }).then((text) => {
-            console.log(text)
-            setResponse(JSON.parse(text));
-            setGazed(true);
-        });
+        socket.emit('gazeAudio', gazeOffset, gazeLimit);
+        setGazeOffset(gazeOffset + gazeLimit);
     }
 
-    const gazeDeeper = () => {
-        fetch('http://127.0.0.1:5000/gazeAudio', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "15cr3@my0u5cr3@mw3@115cr3@mf0r1c3cr3@m"
-            },
-            body: JSON.stringify({
-                offset: gazeOffset,
-                limit: gazeLimit
-            })
-        }).then((response) => { 
-            return response.blob();
-        }).then((blob) => {
-            console.log(blob)
-            setResponse(blob);
-            setGazeOffset(gazeLimit);
-        });
+    async function playAudio(sound_file) {
+        const b = new Blob([sound_file]);
+        const uri = URL.createObjectURL(b);
+        console.log(uri);
+        setPlaying(true);
+        console.log('Loading Sound');
+        const { sound } = await Audio.Sound.createAsync( uri );
+        console.log('Playing Sound');
+        await sound.playAsync();
     }
 
     return (
         <View style={styles.container}>
             <View style={styles.listContainer}>
                 <FlashList 
-                    data={response}
+                    data={gaze_response}
                     renderItem={({ item }) => 
                         <View style={styles.listItem}>
-                        <Text style={styles.dateText}>{item[0]}</Text>
-                        <Text style={styles.responseText}>{item[1]}</Text>
+                            <Text style={styles.dateText}>{item['date']}</Text>
+                            <SubmitButton buttonText={"Play Scream"} onButtonPressed={() => playAudio(item['file'])} />
                         </View>}
                     estimatedItemSize={200}
                 />

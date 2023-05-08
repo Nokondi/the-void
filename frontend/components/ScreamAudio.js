@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import {Audio} from 'expo-av';
+import { socket } from '../socket';
 
 import SubmitButton from './SubmitButton';
 import RecordButton from './RecordButton';
 
-export default function ScreamAudio() {
+export default function ScreamAudio( {scream_response} ) {
 
     const [screamURI, setScreamURI] = useState('');
-    const [response, setResponse] = useState('');
     const [screamed, setScreamed] = useState(false);
     const [recording, setRecording] = useState();
     const [playing, setPlaying] = useState(false);
@@ -45,47 +45,22 @@ export default function ScreamAudio() {
         submitAudio(uri);
     }
 
-    const submitScream = () => {
-        fetch('http://127.0.0.1:5000/scream', {
-            method: "POST",
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-                "Authorization": "15cr3@my0u5cr3@mw3@115cr3@mf0r1c3cr3@m"
-            },
-            body: JSON.stringify({
-                scream: text
-            })
-        }).then((response) => { 
-            return response.text();
-        }).then((text) => {
-            setResponse(JSON.parse(text)['content']);
-            setScreamed(true);
-        });
-    }
-
     async function submitAudio(uri) {
         console.log('Loading Sound');
         const soundBlob = await fetch(uri).then((r) => r.blob());
-        fetch('http://127.0.0.1:5000/screamAudio', {
-            method: "POST",
-            headers: {
-                "Authorization": "15cr3@my0u5cr3@mw3@115cr3@mf0r1c3cr3@m"
-            },
-            body: soundBlob
-        }).then((response) => {
-            return response.text();
-        }).then((text) => {
-            setResponse(JSON.parse(text)['content']);
-            setScreamed(true);
-        });
+        socket.emit('screamAudio', soundBlob)
+        setScreamed(true);
     }
 
-    async function playAudio () {
-        console.log('Loading Sound');
-        const { sound } = await Audio.Sound.createAsync( screamURI );
-        console.log('Playing Sound');
-        await sound.playAsync();
+    async function playAudio() {
+        if(!playing) {
+            setPlaying(true);
+            console.log('Loading Sound');
+            const { sound } = await Audio.Sound.createAsync( screamURI );
+            console.log('Playing Sound');
+            await sound.playAsync();
+            setPlaying(false);
+        }
     }
 
     return (
@@ -93,17 +68,20 @@ export default function ScreamAudio() {
             {screamed ? (
                 <View style={styles.container}>
                     <Text style={styles.responseText}>
-                        {response}
+                        {scream_response}
                     </Text>
                 </View>
 
             ) : (
                 <View style={styles.buttonContainer}>
                     <RecordButton onRecordPressed={startRecording} onRecordReleased={stopRecording} />
-                    <SubmitButton onButtonPressed={playAudio} />
+                    <Text style={styles.responseText}>
+                        Welcome to the Void. <br />
+                        Hold the button and scream. <br />
+                        Flip the switch to gaze into the void.
+                    </Text>
                 </ View>
             )}
-
         </View>
     );
 }
@@ -112,6 +90,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
+        alignContent: 'center',
     },
     buttonContainer: {
         flex: 1,

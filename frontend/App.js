@@ -1,17 +1,67 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Switch, Dimensions } from 'react-native';
+import { StyleSheet, View, Switch } from 'react-native';
+import { io } from 'socket.io-client';
 
 import Gaze from './components/Gaze';
 import Scream from './components/Scream';
 import ScreamAudio from './components/ScreamAudio';
 import GazeAudio from './components/GazeAudio';
+import { socket } from './socket';
 
 export default function App() {
 
+    const [isConnected, setIsConnected] = useState(socket.connected);
     const [scream, setScream] = useState(true);
+    const [response, setResponse] = useState('');
+    const [gazes, setGazes] = useState([]);
+
+    useEffect(() => {
+        function onConnect() {
+            setIsConnected(true);
+        }
+
+        function onDisconnect() {
+            setIsConnected(false);
+        }
+
+        function onScream(scream_response) {
+            console.log(scream_response['data']);
+            setResponse(scream_response['data']);
+        }
+
+        function onGaze(gaze_response) {
+            console.log(gaze_response);
+            setResponse(gaze_response);
+        }
+
+        function onScreamAudio(scream_response) {
+            console.log(scream_response['data']);
+            setResponse(scream_response['data']);
+        }
+
+        function onGazeAudio(gaze_response) {
+            console.log(gaze_response);
+            setGazes(previous => [...previous, gaze_response]);
+        }
+
+        socket.on('connect', onConnect);
+        socket.on('disconnect', onDisconnect);
+        socket.on('scream', onScream);
+        socket.on('gaze', onGaze);
+        socket.on('screamAudio', onScreamAudio);
+        socket.on('gazeAudio', onGazeAudio)
+
+        return () => {
+            socket.off('connect', onConnect);
+            socket.off('disconnect', onDisconnect);
+        };
+    }, [])
 
     const toggleSwitch = () => {
+        if (!scream) {
+            setGazes([]);
+        }
         setScream(!scream);
     }
 
@@ -28,9 +78,9 @@ export default function App() {
                 />
             </View>
             {scream ? (
-                <ScreamAudio />
+                <ScreamAudio scream_response={response} />
             ) : (
-                <GazeAudio />
+                <GazeAudio gaze_response={gazes} />
             )}
             <StatusBar style="auto" />
         </View>

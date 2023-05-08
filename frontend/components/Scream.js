@@ -1,31 +1,17 @@
 import React, {useState} from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { socket } from '../socket';
 
 import SubmitButton from './SubmitButton';
 
-export default function Scream() {
+export default function Scream( {scream_response} ) {
 
     const [text, onChangeText] = useState('');
-    const [response, setResponse] = useState('');
     const [screamed, setScreamed] = useState(false);
 
     const submitScream = () => {
-        fetch('http://127.0.0.1:5000/scream', {
-            method: "POST",
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-                "Authorization": "15cr3@my0u5cr3@mw3@115cr3@mf0r1c3cr3@m"
-            },
-            body: JSON.stringify({
-                scream: text
-            })
-        }).then((response) => { 
-            return response.text();
-        }).then((text) => {
-            setResponse(JSON.parse(text)['content']);
-            setScreamed(true);
-        });
+        socket.emit('scream', text);
+        setScreamed(true);
     }
 
     return (
@@ -33,7 +19,7 @@ export default function Scream() {
             {screamed ? (
                 <View style={styles.container}>
                     <Text style={styles.responseText}>
-                        {response}
+                        {scream_response}
                     </Text>
                 </View>
 
@@ -63,6 +49,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
+        alignContent: 'center',
     },
     buttonContainer: {
         flex: 1,
@@ -85,5 +72,6 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 24,
         padding: '1%',
+        textAlign: 'center'
     },
 });
