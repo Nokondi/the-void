@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, make_response, send_file
 from datetime import datetime
 from db import DataModel
 from flask_cors import CORS
+from flask_socketio import SocketIO
 from zipfile import is_zipfile
 from markupsafe import escape
 
@@ -9,13 +10,11 @@ app = Flask(__name__)
 
 app.secret_key = "15cr3@my0u5cr3@mw3@115cr3@mf0r1c3cr3@m"
 
+socketio = SocketIO(app)
 cors = CORS(app)
 
-@app.route("/")
-def blank_page():
-    return "<p>Error: access denied</p>"
 
-@app.route("/scream", methods=["POST"])
+@socketio.event
 def scream():
     scr = escape(request.json['scream'])
     d = DataModel()
