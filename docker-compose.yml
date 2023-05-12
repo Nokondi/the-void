@@ -1,0 +1,8 @@
+services:
+  frontend:
+    build: ./frontend
+    ports: 19006:19006
+
+  backend:
+    build: ./backend
+    ports: 5000:5000
