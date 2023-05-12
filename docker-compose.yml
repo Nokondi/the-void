@@ -1,8 +1,19 @@
 services:
   frontend:
     build: ./frontend
-    ports: 19006:19006
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./frontend:/opt/the_void
+    ports: 
+      - '19006:19006'
 
   backend:
     build: ./backend
-    ports: 5000:5000
+    environment:
+      - FLASK_ENV=development
+      - FLASK_APP=app.py
+    volumes:
+      - ./backend:/backend
+    ports: 
+      - '5000:5000'
