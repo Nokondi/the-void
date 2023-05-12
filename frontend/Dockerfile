@@ -29,5 +29,5 @@ WORKDIR /opt/the_void/app
 # for development, we bind mount volumes; comment out for production
 COPY . .
 
-ENTRYPOINT ["npm", "run"]
-CMD ["web"]
+
+CMD ["npx", "expo", "start", "--web"]
