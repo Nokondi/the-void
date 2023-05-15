@@ -2,11 +2,10 @@
 # https://hub.docker.com/_/python
 FROM python:3.11-alpine
 
-# Copy local code to the container image.
-COPY . /backend
-WORKDIR /backend
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
-# Install production dependencies.
+COPY requirements.txt /usr/src/app
 RUN pip install -r requirements.txt
 
 EXPOSE 5000

@@ -26,8 +26,6 @@ RUN npm install
 
 # copy in our source code last, as it changes the most
 WORKDIR /opt/the_void/app
-# for development, we bind mount volumes; comment out for production
-COPY . .
 
 ENTRYPOINT ["npm", "run"]
 CMD ["web"]

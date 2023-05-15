@@ -1,9 +1,8 @@
-from flask import Flask, request, jsonify, make_response, send_file
+from flask import Flask
 from datetime import datetime
 from db import DataModel
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
-from zipfile import is_zipfile
 from markupsafe import escape
 
 app = Flask(__name__)

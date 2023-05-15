@@ -1,8 +1,6 @@
 import sqlite3
 from datetime import datetime
-import zipfile
-from os.path import exists
-from os import remove
+
 
 def init_db():
     con = sqlite3.connect("data.db")
