@@ -7,7 +7,7 @@ from markupsafe import escape
 
 app = Flask(__name__)
 
-socketio = SocketIO(app, cors_allowed_origins="*")
+socketio = SocketIO(app, cors_allowed_origins="*", engineio_logger=True, logger=True)
 cors = CORS(app)
 
 @socketio.event
@@ -50,3 +50,6 @@ def gazeAudio(offset, limit):
     del(d)
     for r in results:
         emit('gazeAudio', {'date': r[0], 'file': r[1]})
+
+if __name__ == '__main__':
+    socketio.run(app)

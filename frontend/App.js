@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Switch } from 'react-native';
-import { io } from 'socket.io-client';
 
-import Gaze from './components/Gaze';
-import Scream from './components/Scream';
 import ScreamAudio from './components/ScreamAudio';
 import GazeAudio from './components/GazeAudio';
 import { socket } from './socket';
