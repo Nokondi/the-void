@@ -6,7 +6,7 @@ services:
     volumes:
       - ./frontend:/opt/the_void
     ports: 
-      - 8080:19006
+      - 80:19006
 
   backend:
     build: ./backend
