@@ -1,5 +1,5 @@
 # pull base image
-FROM node:20.0-alpine
+FROM node:20.0
 
 # set our node environment, either development or production
 # defaults to production, compose overrides this to development on build and run
