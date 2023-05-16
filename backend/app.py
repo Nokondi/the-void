@@ -7,8 +7,8 @@ from markupsafe import escape
 
 app = Flask(__name__)
 
+cors = CORS(app, resources={r"/*":{"origins": "*"}})
 socketio = SocketIO(app, cors_allowed_origins="*", engineio_logger=True, logger=True)
-cors = CORS(app)
 
 @socketio.event
 def scream(scream_text):
