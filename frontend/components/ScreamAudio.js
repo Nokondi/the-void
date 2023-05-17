@@ -3,7 +3,6 @@ import { StyleSheet, Text, View } from 'react-native';
 import {Audio} from 'expo-av';
 import { socket } from '../socket';
 
-import SubmitButton from './SubmitButton';
 import RecordButton from './RecordButton';
 
 export default function ScreamAudio( {scream_response} ) {
