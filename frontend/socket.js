@@ -1,6 +1,5 @@
 import { io } from "socket.io-client";
 
-const host = location.hostname;
-const url = `http://${host}:5000`;
+const url = `http://0.0.0.0:5001`;
 
 export const socket = io(url);

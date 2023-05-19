@@ -51,5 +51,5 @@ def gazeAudio(offset, limit):
     for r in results:
         emit('gazeAudio', {'date': r[0], 'file': r[1]})
 
-#if __name__ == '__main__':
-#    socketio.run(app)
+if __name__ == '__main__':
+    socketio.run(app=app, port=5001)
