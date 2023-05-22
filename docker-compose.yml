@@ -7,9 +7,6 @@ services:
       - ./frontend:/opt/the_void
     ports: 
       - 19006:19006
-    networks:
-      the-void-net:
-        ipv4_address: 172.19.0.2
 
 
   backend:
@@ -20,14 +17,4 @@ services:
     volumes:
       - ./backend:/usr/src/app
     ports:
-      - 5001:5001
-    networks:
-      the-void-net:
-        ipv4_address: 172.19.0.4
-
-networks:
-  the-void-net:
-    ipam:
-      driver: bridge
-      config:
-        - subnet: "172.19.0.0/32"
+      - 8000:8000
