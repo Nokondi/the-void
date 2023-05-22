@@ -3,10 +3,8 @@ services:
     build: ./frontend
     environment:
       - NODE_ENV=production
-    volumes:
-      - ./frontend:/opt/the_void
     ports: 
-      - 19006:19006
+      - 80:19006
 
 
   backend:

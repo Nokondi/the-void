@@ -1,8 +1,5 @@
-# pull base image
-FROM node:20.0-alpine
+FROM node:20.0-alpine AS expo-client
 
-# set our node environment, either development or production
-# defaults to production, compose overrides this to development on build and run
 ARG NODE_ENV=production
 ENV NODE_ENV $NODE_ENV
 
@@ -20,14 +17,25 @@ RUN npm i --unsafe-perm --allow-root -g npm@latest expo-cli@latest
 
 # install dependencies first, in a different location for easier app bind mounting for local development
 # due to default /opt permissions we have to create the dir with root and change perms
-RUN mkdir /opt/the_void
-WORKDIR /opt/the_void
-ENV PATH /opt/the_void/.bin:$PATH
-COPY ./package.json ./package-lock.json ./
+RUN mkdir /opt/the-void
+WORKDIR /opt/the-void
+ENV PATH /opt/the-void/.bin:$PATH
+# COPY ./package.json ./package-lock.json ./
+COPY . .
 RUN npm install
+RUN npx expo export:web
 
-# copy in our source code last, as it changes the most
-WORKDIR /opt/the_void/app
+WORKDIR /opt/the-void/web-build
 
-ENTRYPOINT ["npm", "run"]
-CMD ["web"]
+#ENTRYPOINT ["npm", "run"]
+#CMD ["web"]
+
+FROM nginx:alpine AS nginx-proxy
+
+COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
+
+RUN rm -rf /usr/share/nginx/html/*
+
+COPY --from=expo-client /opt/the-void/web-build /usr/share/nginx/html
+
+EXPOSE 80
