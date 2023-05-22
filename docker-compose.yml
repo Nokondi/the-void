@@ -2,18 +2,32 @@ services:
   frontend:
     build: ./frontend
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
     volumes:
       - ./frontend:/opt/the_void
     ports: 
       - 19006:19006
+    networks:
+      the-void-net:
+        ipv4_address: 172.19.0.2
+
 
   backend:
     build: ./backend
     environment:
-      - FLASK_ENV=development
+      - FLASK_ENV=production
       - FLASK_APP=app.py
     volumes:
       - ./backend:/usr/src/app
     ports:
       - 5001:5001
+    networks:
+      the-void-net:
+        ipv4_address: 172.19.0.4
+
+networks:
+  the-void-net:
+    ipam:
+      driver: bridge
+      config:
+        - subnet: "172.19.0.0/32"

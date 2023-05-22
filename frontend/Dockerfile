@@ -6,6 +6,8 @@ FROM node:20.0
 ARG NODE_ENV=production
 ENV NODE_ENV $NODE_ENV
 
+ENV BACKEND backend
+
 # default to port 19006 for node, and 19001 and 19002 (tests) for debug
 ARG PORT=19006
 ENV PORT $PORT
