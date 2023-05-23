@@ -27,13 +27,3 @@ WORKDIR /opt/the-void/web-build
 
 #ENTRYPOINT ["npm", "run"]
 #CMD ["web"]
-
-FROM nginx:alpine AS nginx-proxy
-
-#COPY ./nginx/nginx.conf /etc/nginx/conf.d/default.conf
-
-RUN rm -rf /usr/share/nginx/html/*
-
-COPY --from=expo-build /opt/the-void/web-build /usr/share/nginx/html
-
-EXPOSE 80
