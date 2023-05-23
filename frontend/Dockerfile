@@ -1,4 +1,4 @@
-FROM node:20.0-alpine AS expo-client
+FROM node:20.0-alpine AS expo-build
 
 ARG NODE_ENV=production
 ENV NODE_ENV $NODE_ENV
@@ -30,10 +30,10 @@ WORKDIR /opt/the-void/web-build
 
 FROM nginx:alpine AS nginx-proxy
 
-#COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
+#COPY ./nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
 RUN rm -rf /usr/share/nginx/html/*
 
-COPY --from=expo-client /opt/the-void/web-build /usr/share/nginx/html
+COPY --from=expo-build /opt/the-void/web-build /usr/share/nginx/html
 
 EXPOSE 80
