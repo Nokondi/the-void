@@ -1,12 +1,4 @@
 services:
-  frontend:
-    build: ./frontend
-    environment:
-      - NODE_ENV=production
-    ports: 
-      - 80:19006
-
-
   backend:
     build: ./backend
     environment:
@@ -16,3 +8,18 @@ services:
       - ./backend:/usr/src/app
     ports:
       - 8000:8000
+
+  frontend:
+    build: ./frontend
+    environment:
+      - NODE_ENV=production
+    ports: 
+      - 8080:80
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes: 
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    command: certonly --webroot -w /var/www/certbot --force-renewal --email {email} -d into-the-void.app --agree-tos

@@ -3,8 +3,6 @@ FROM node:20.0-alpine AS expo-client
 ARG NODE_ENV=production
 ENV NODE_ENV $NODE_ENV
 
-ENV BACKEND backend
-
 # default to port 19006 for node, and 19001 and 19002 (tests) for debug
 ARG PORT=19006
 ENV PORT $PORT
@@ -32,7 +30,7 @@ WORKDIR /opt/the-void/web-build
 
 FROM nginx:alpine AS nginx-proxy
 
-COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
+#COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
 
 RUN rm -rf /usr/share/nginx/html/*
 

@@ -1,7 +1,7 @@
 # backend
 .venv/
 venv/
-backend/__pycache__/
+__pycache__/
 *.pyc
 
 # frontend
@@ -15,6 +15,7 @@ npm-debug.*
 *.key
 *.mobileprovision
 *.orig.*
+web-build/
 
 # macOS
 .DS_Store
