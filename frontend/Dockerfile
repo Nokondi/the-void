@@ -14,6 +14,5 @@ ENV PATH /opt/the-void/.bin:$PATH
 
 COPY . .
 RUN npm install
-RUN npx expo export:web
 
-WORKDIR /opt/the-void/web-build
+WORKDIR /opt/the-void
