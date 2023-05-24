@@ -1,6 +1,12 @@
 # environment variables
 .env
 
+# certbot
+certbot/
+
+# nginx
+nginx/logs/
+
 # backend
 .venv/
 venv/

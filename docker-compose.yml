@@ -10,24 +10,9 @@ services:
       - 8000:8000
 
   frontend:
-    image: node:20.0-alpine
-    volumes:
-      - ./frontend:/tmp/the-void
+    build: ./frontend
     environment:
       - NODE_ENV=production
-    command:
-      - npm 
-      - i 
-      - --unsafe-perm 
-      - --allow-root 
-      - -g npm@latest 
-      - expo-cli@latest
-      - |
-      - npm
-      - install
-      - /tmp/the-void
-      - |
-      
 
   nginx:
     container_name: nginx
@@ -46,4 +31,5 @@ services:
     volumes: 
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
-    command: certonly --webroot -w /var/www/certbot --force-renewal --email ${EMAIL} -d {$DOMAIN} --agree-tos
+      - ./certbot/logs:/var/log/letsencrypt
+    command: certonly --webroot -w /var/www/certbot --force-renewal --email ${EMAIL} -d ${DOMAIN} --agree-tos
