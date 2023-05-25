@@ -17,11 +17,13 @@ const styles = StyleSheet.create({
         borderStyle: 'solid',
         borderColor: '#422B4F',
         alignItems: 'center',
-        width: '30%',
+        width: 200,
     },
     buttonText: {
         color: '#fff',
         fontSize: 24,
         padding: 10,
+        fontFamily: 'Special-Elite',
+        textAlign: 'center',
     },
 });

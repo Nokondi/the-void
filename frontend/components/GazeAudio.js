@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
         flex: 1,
         margin: 20,
         justifyContent: 'center',
+        inverted: true,
     },
     dateText: {
         color: '#fff',
@@ -91,7 +92,8 @@ const styles = StyleSheet.create({
     },
     listItem: {
         flex:1,
-        borderBottomColor: '#5B639A',
+        paddingBottom: '1%',
+        borderBottomColor: '#422B4F',
         borderBottomWidth: 3,
     },
 });

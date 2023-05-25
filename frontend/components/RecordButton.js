@@ -5,7 +5,7 @@ export default function RecordButton({onRecordPressed, onRecordReleased}) {
 
     return (
         <Pressable style={styles.recordButton} onPressIn={onRecordPressed} onPressOut={onRecordReleased}>
-            <Text style={styles.buttonText}>R</Text>
+            <Text style={styles.buttonText}></Text>
         </Pressable>
     );
 }

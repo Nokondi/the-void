@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Switch } from 'react-native';
+import { useFonts } from 'expo-font';
+
 
 import ScreamAudio from './components/ScreamAudio';
 import GazeAudio from './components/GazeAudio';
@@ -12,6 +14,10 @@ export default function App() {
     const [scream, setScream] = useState(true);
     const [response, setResponse] = useState('');
     const [gazes, setGazes] = useState([]);
+
+    const [fontsLoaded] = useFonts({
+        'Special-Elite': require('./assets/fonts/SpecialElite-Regular.ttf'),
+    });
 
     useEffect(() => {
         function onConnect() {
