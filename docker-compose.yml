@@ -21,6 +21,9 @@ services:
     container_name: nginx
     image: nginx
     restart: unless-stopped
+    environment:
+      - DOMAIN ${DOMAIN}
+      - EMAIL ${EMAIL}
     ports: 
       - 80:80
       - 443:443
