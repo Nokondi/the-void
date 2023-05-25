@@ -7,10 +7,13 @@ import RecordButton from './RecordButton';
 
 export default function ScreamAudio( {scream_response} ) {
 
+    const [permissionResponse, requestPermission] = Audio.usePermissions();
     const [screamURI, setScreamURI] = useState('');
     const [screamed, setScreamed] = useState(false);
     const [recording, setRecording] = useState();
     const [playing, setPlaying] = useState(false);
+
+    requestPermission();
 
     async function startRecording() {
         try {
