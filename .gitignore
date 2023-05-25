@@ -12,7 +12,7 @@ nginx/logs/
 venv/
 __pycache__/
 *.pyc
-data.db
+*.db
 
 # frontend
 node_modules/
