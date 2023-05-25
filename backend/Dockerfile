@@ -14,4 +14,4 @@ EXPOSE 8000
 # webserver, with one worker process and 8 threads.
 # For environments with multiple CPU cores, increase the number of workers
 # to be equal to the cores available.
-CMD ["gunicorn", "-k", "eventlet", "--workers=1", "--bind=0.0.0.0:8000", "app:app"]
+# CMD ["gunicorn", "-k", "eventlet", "--workers=1", "--bind=0.0.0.0:8000", "app:app"]
