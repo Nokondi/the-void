@@ -1,5 +1,6 @@
 services:
   backend:
+    container_name: backend
     build: ./backend
     environment:
       - FLASK_ENV=production
@@ -10,6 +11,7 @@ services:
       - 8000:8000
 
   frontend:
+    container_name: frontend
     build: ./frontend
     environment:
       - NODE_ENV=production
