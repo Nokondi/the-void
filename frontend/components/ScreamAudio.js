@@ -10,7 +10,7 @@ export default function ScreamAudio( {scream_response} ) {
     const [permissionResponse, requestPermission] = Audio.usePermissions();
     const [screamURI, setScreamURI] = useState('');
     const [screamed, setScreamed] = useState(false);
-    const [recording, setRecording] = useState();
+    const [recording, setRecording] = useState(false);
     const [playing, setPlaying] = useState(false);
 
     requestPermission();
@@ -76,10 +76,11 @@ export default function ScreamAudio( {scream_response} ) {
 
             ) : (
                 <View style={styles.buttonContainer}>
-                    <RecordButton onRecordPressed={startRecording} onRecordReleased={stopRecording} />
+                    {recording ? (<RecordButton onRecordPressed={stopRecording} />) : (<RecordButton onRecordPressed={startRecording} />)}
                     <Text style={styles.responseText}>
                         Welcome to the Void. <br />
-                        Hold the button and scream. <br />
+                        Press the button to begin recording.<br />
+                        Press again to stop recording. <br />
                         Flip the switch to gaze into the void.
                     </Text>
                 </ View>

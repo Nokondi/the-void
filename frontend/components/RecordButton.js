@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { Pressable, StyleSheet, Text } from 'react-native';
 
-export default function RecordButton({onRecordPressed, onRecordReleased}) {
+export default function RecordButton({onRecordPressed}) {
 
     return (
-        <Pressable style={styles.recordButton} onPressIn={onRecordPressed} onPressOut={onRecordReleased}>
+        <Pressable style={styles.recordButton} onPress={onRecordPressed}>
             <Text style={styles.buttonText}></Text>
         </Pressable>
     );
