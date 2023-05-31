@@ -12,6 +12,7 @@ export default function ScreamAudio( {scream_response} ) {
     const [screamed, setScreamed] = useState(false);
     const [recording, setRecording] = useState(false);
     const [playing, setPlaying] = useState(false);
+    const [submitted, setSubmitted] = useState(false);
 
     requestPermission();
 
@@ -36,7 +37,7 @@ export default function ScreamAudio( {scream_response} ) {
     
     async function stopRecording() {
         console.log('Stopping recording..');
-        setRecording(undefined);
+        
         await recording.stopAndUnloadAsync();
         await Audio.setAudioModeAsync({
             allowsRecordingIOS: false,
@@ -45,13 +46,15 @@ export default function ScreamAudio( {scream_response} ) {
         setScreamURI(uri);
         console.log('Recording stopped and stored at', uri);
         submitAudio(uri);
+        setRecording(undefined);
+        setScreamed(true);
     }
 
     async function submitAudio(uri) {
         console.log('Loading Sound');
         const soundBlob = await fetch(uri).then((r) => r.blob());
         socket.emit('screamAudio', soundBlob)
-        setScreamed(true);
+        setSubmitted(true);
     }
 
     async function playAudio() {
@@ -76,13 +79,23 @@ export default function ScreamAudio( {scream_response} ) {
 
             ) : (
                 <View style={styles.buttonContainer}>
-                    {recording ? (<RecordButton onRecordPressed={stopRecording} />) : (<RecordButton onRecordPressed={startRecording} />)}
-                    <Text style={styles.responseText}>
-                        Welcome to the Void. <br />
-                        Press the button to begin recording.<br />
-                        Press again to stop recording. <br />
-                        Flip the switch to gaze into the void.
-                    </Text>
+                    {recording ? (
+                        <RecordButton onRecordPressed={stopRecording} />
+                    ) : (
+                        <RecordButton onRecordPressed={startRecording} />
+                    )}
+                    {recording ? (
+                        <Text style={styles.responseText}>
+                            Recording...
+                        </Text>
+                    ) : (
+                        <Text style={styles.responseText}>
+                            Welcome to the Void. <br />
+                            Press the button to begin recording.<br />
+                            Press again to stop recording. <br />
+                            Flip the switch to gaze into the void.
+                        </Text>
+                    )}
                 </ View>
             )}
         </View>

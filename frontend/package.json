@@ -22,7 +22,8 @@
     "react-native-web": "~0.18.10",
     "react-native-zip-archive": "^6.0.9",
     "socket.io-client": "^4.6.1",
-    "expo-font": "~11.1.1"
+    "expo-font": "~11.1.1",
+    "react-native-reanimated": "~2.14.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

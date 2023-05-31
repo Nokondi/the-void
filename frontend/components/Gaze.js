@@ -3,7 +3,7 @@ import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { FlashList } from "@shopify/flash-list";
 import { socket } from '../socket';
 
-import SubmitButton from './SubmitButton';
+import StandardButton from './StandardButton';
 
 export default function Gaze( {gaze_response} ) {
 
@@ -42,7 +42,7 @@ export default function Gaze( {gaze_response} ) {
                         value={text}
                     />
                     <View style={styles.buttonContainer}>
-                        <SubmitButton onButtonPressed={gazeIntoVoid} />
+                        <StandardButton onButtonPressed={gazeIntoVoid} />
                     </View>
                 </View>
             )}

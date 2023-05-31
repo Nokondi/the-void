@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { FlashList } from "@shopify/flash-list";
 import {Audio} from 'expo-av';
+import { AntDesign } from '@expo/vector-icons'; 
 
 import { socket } from '../socket';
 
-import SubmitButton from './SubmitButton';
+import PlayButton from './PlayButton';
 
 export default function GazeAudio( {gaze_response} ) {
 
@@ -35,13 +36,14 @@ export default function GazeAudio( {gaze_response} ) {
 
     return (
         <View style={styles.container}>
+            <AntDesign name="eyeo" size={24} color="#5B639A" />
             <View style={styles.listContainer}>
                 <FlashList 
                     data={gaze_response}
                     renderItem={({ item }) => 
                         <View style={styles.listItem}>
                             <Text style={styles.dateText}>{item['date']}</Text>
-                            <SubmitButton buttonText={"Play Scream"} onButtonPressed={() => playAudio(item['file'])} />
+                            <PlayButton buttonText={"Play Scream"} onButtonPressed={() => playAudio(item['file'])} />
                         </View>}
                     estimatedItemSize={200}
                 />
@@ -74,6 +76,7 @@ const styles = StyleSheet.create({
     },
     listContainer: {
         flex: 1,
+        flexDirection: 'column-reverse',
         margin: 20,
         justifyContent: 'center',
         inverted: true,
@@ -92,6 +95,7 @@ const styles = StyleSheet.create({
     },
     listItem: {
         flex:1,
+        flexDirection: 'row',
         paddingBottom: '1%',
         borderBottomColor: '#422B4F',
         borderBottomWidth: 3,

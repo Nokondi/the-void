@@ -1,16 +1,17 @@
 import { Pressable, StyleSheet, Text } from 'react-native';
 
-export default function SubmitButton( {buttonText, onButtonPressed} ) {
+
+export default function StandardButton( {buttonText, onButtonPressed} ) {
 
     return (
-        <Pressable style={styles.submitButton} onPress={onButtonPressed}>
+        <Pressable style={styles.standardButton} onPress={onButtonPressed}>
             <Text style={styles.buttonText}>{buttonText}</Text>
         </Pressable>
     );
 }
 
 const styles = StyleSheet.create({
-    submitButton: {
+    standardButton: {
         borderRadius: 10,
         backgroundColor: '#5B639A',
         borderWidth: 3,
