@@ -23,7 +23,9 @@
     "react-native-zip-archive": "^6.0.9",
     "socket.io-client": "^4.6.1",
     "expo-font": "~11.1.1",
-    "react-native-reanimated": "~2.14.4"
+    "react-native-reanimated": "~2.14.4",
+    "expo-linear-gradient": "~12.1.2",
+    "@shopify/react-native-skia": "0.1.172"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

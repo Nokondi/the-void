@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Switch } from 'react-native';
 import { useFonts } from 'expo-font';
 
-
 import ScreamAudio from './components/ScreamAudio';
 import GazeAudio from './components/GazeAudio';
 import { socket } from './socket';
+import AnimatedGradient from './components/AnimatedGradient';
 
 export default function App() {
 
@@ -69,7 +69,9 @@ export default function App() {
     }
 
     return (
-        <View style={styles.container}>
+        
+        <View style={styles.outerContainer}>
+            <AnimatedGradient>
             <View style={styles.switchContainer}>
                 <Switch 
                     onValueChange={toggleSwitch}
@@ -86,16 +88,15 @@ export default function App() {
                 <GazeAudio gaze_response={gazes} />
             )}
             <StatusBar style="auto" />
+            </AnimatedGradient>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-container: {
+outerContainer: {
     flex: 1,
-    backgroundColor: '#000',
     justifyContent: 'center',
-    paddingHorizontal: '10%',
 },
 switchContainer: {
     flex: 1/3,
