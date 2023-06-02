@@ -22,9 +22,14 @@ export default function AnimatedGradient() {
     };
 
     const ani_props = useAnimatedProps(() => {
+        
+            const ani_x_start = withTiming(x_start.value, config);
+            const ani_x_end = withTiming(x_end.value, config);
+            const ani_y_start = withTiming(y_start.value, config);
+            const ani_y_end = withTiming(y_end.value, config);
+
         return {
-            start: withTiming({x: x_start.value, y: y_start.value}, config),
-            end: withTiming({x: x_end.value, y: y_end.value}, config),
+
         };
     });
 
@@ -42,7 +47,7 @@ export default function AnimatedGradient() {
         <AnimatedLinearGradient
             style={styles.linearGradient}
             colors={['#070e17', '#3d80cd']}
-            animatedProps={ani_props}
+            
              >
         </ AnimatedLinearGradient>
     );
