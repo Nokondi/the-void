@@ -116,7 +116,6 @@ const styles = StyleSheet.create({
     },
     textBox: {
         flex: 1,
-        backgroundColor: '#fff',
         color: "#000",
         padding: '2%',
         borderColor: "#5B639A",

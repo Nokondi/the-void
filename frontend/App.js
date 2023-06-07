@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Switch } from 'react-native';
 import { useFonts } from 'expo-font';
+import { WithSkiaWeb } from "@shopify/react-native-skia/lib/module/web";
 
 import ScreamAudio from './components/ScreamAudio';
 import GazeAudio from './components/GazeAudio';
 import { socket } from './socket';
-import AnimatedGradient from './components/AnimatedGradient';
 
 export default function App() {
 
@@ -71,7 +71,8 @@ export default function App() {
     return (
         
         <View style={styles.outerContainer}>
-            <AnimatedGradient>
+            <WithSkiaWeb
+                getComponent={() => import("./components/AnimatedGradient")} />
             <View style={styles.switchContainer}>
                 <Switch 
                     onValueChange={toggleSwitch}
@@ -88,7 +89,6 @@ export default function App() {
                 <GazeAudio gaze_response={gazes} />
             )}
             <StatusBar style="auto" />
-            </AnimatedGradient>
         </View>
     );
 }

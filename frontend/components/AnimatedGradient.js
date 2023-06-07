@@ -1,64 +1,69 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { StyleSheet, View, Switch } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import { StyleSheet, View, Switch, useWindowDimensions } from 'react-native';
+import { Canvas,
+         Rect, 
+         Skia, 
+         Shader, 
+         RadialGradient,
+         vec 
+} from '@shopify/react-native-skia';
 import Animated, {
-    useSharedValue,
-    withTiming,
-    useAnimatedStyle,
-    useAnimatedProps,
-  } from 'react-native-reanimated';
-
-window._frameTimestamp = null
-const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
+       useSharedValue,
+       withTiming,
+       useAnimatedStyle,
+       useAnimatedProps,
+} from 'react-native-reanimated';
 
 export default function AnimatedGradient() {
-    const x_start = useSharedValue(0);
-    const x_end = useSharedValue(0);
-    const y_start = useSharedValue(0);
-    const y_end = useSharedValue(0);
+    const radius = useSharedValue(128);
+    const {width, height} = useWindowDimensions();
+    const center = vec(width / 2, height / 2);
+    const [up, setUp] = useState(true);
 
     const config = {
         duration: 1000,
     };
 
-    const ani_props = useAnimatedProps(() => {
-        
-            const ani_x_start = withTiming(x_start.value, config);
-            const ani_x_end = withTiming(x_end.value, config);
-            const ani_y_start = withTiming(y_start.value, config);
-            const ani_y_end = withTiming(y_end.value, config);
-
-        return {
-
-        };
-    });
-
     useEffect(() => {
         const interval = setInterval(() => {
-            x_start.value = ((x_start.value * 10 + 1) % 10) / 10;
-            x_end.value = ((x_end.value * 10 - 1) % 10) / 10;
-            y_start.value = ((y_start.value * 10 + 1) % 10) / 10;
-            y_end.value = ((y_end.value * 10 - 1) % 10) / 10;
+            if(up) {
+                radius.value = withTiming(radius.value + 10, config);
+            }
+            else {
+                radius.value = withTiming(radius.value - 10, config);
+            }
+            console.log(radius.value)
         }, 1000);
 
     }, []);
 
     return (
-        <AnimatedLinearGradient
-            style={styles.linearGradient}
-            colors={['#070e17', '#3d80cd']}
-            
-             >
-        </ AnimatedLinearGradient>
+        <Canvas style={styles.canvas}>
+            <Rect x={0} y={0} width={width} height={height}>
+            <RadialGradient
+                style={styles.gradient}
+                c={center}
+                r={radius.value}
+                colors={["#483475", "#070b34"]}
+                >
+            </ RadialGradient>
+            </Rect>
+        </Canvas>
     );
     
 }
 
 
 const styles = StyleSheet.create({
-    linearGradient: {
+    gradient: {
         width: "100%",
         height: "100%",
-        zIndex:-1000,
     },
+    canvas: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+    }
 });
