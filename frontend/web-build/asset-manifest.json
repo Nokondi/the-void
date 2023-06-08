@@ -1,19 +1,26 @@
 {
   "files": {
-    "main.js": "/static/js/main.2512fb42.js",
-    "static/js/108.a464534d.js": "/static/js/108.a464534d.js",
+    "main.js": "/static/js/main.2374271a.js",
+    "static/js/723.1fe9d336.chunk.js": "/static/js/723.1fe9d336.chunk.js",
+    "static/js/47.2d2932aa.chunk.js": "/static/js/47.2d2932aa.chunk.js",
+    "static/js/889.bb174ca7.js": "/static/js/889.bb174ca7.js",
+    "static/js/canvaskit.wasm": "/static/js/canvaskit.wasm",
     "static/media/SpecialElite-Regular.ttf": "/static/media/SpecialElite-Regular.9d8e771c3df553f9bc53.ttf",
+    "static/media/Quicksand-VariableFont_wght.ttf": "/static/media/Quicksand-VariableFont_wght.cf52df73d8529b4815ed.ttf",
+    "static/media/AntDesign.ttf": "/static/media/AntDesign.163adab9dbd7cb1ed12a.ttf",
     "favicon.ico": "/favicon.ico",
     "index.html": "/index.html",
     "favicon-32.png": "/favicon-32.png",
     "favicon-16.png": "/favicon-16.png",
     "manifest.json": "/manifest.json",
     "serve.json": "/serve.json",
-    "main.2512fb42.js.map": "/static/js/main.2512fb42.js.map",
-    "108.a464534d.js.map": "/static/js/108.a464534d.js.map"
+    "main.2374271a.js.map": "/static/js/main.2374271a.js.map",
+    "723.1fe9d336.chunk.js.map": "/static/js/723.1fe9d336.chunk.js.map",
+    "47.2d2932aa.chunk.js.map": "/static/js/47.2d2932aa.chunk.js.map",
+    "889.bb174ca7.js.map": "/static/js/889.bb174ca7.js.map"
   },
   "entrypoints": [
-    "static/js/108.a464534d.js",
-    "static/js/main.2512fb42.js"
+    "static/js/889.bb174ca7.js",
+    "static/js/main.2374271a.js"
   ]
 }
