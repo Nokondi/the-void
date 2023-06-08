@@ -5,48 +5,42 @@ import { Canvas,
          Skia, 
          Shader, 
          RadialGradient,
-         vec 
+         useValue,
+         useSharedValueEffect,
+         vec,
+         mix
 } from '@shopify/react-native-skia';
-import Animated, {
-       useSharedValue,
+import { useSharedValue,
        withTiming,
-       useAnimatedStyle,
-       useAnimatedProps,
+       withRepeat,
 } from 'react-native-reanimated';
 
 export default function AnimatedGradient() {
-    const radius = useSharedValue(128);
+    const radius = useValue(128);
+    const sharedRadius = useSharedValue(128);
     const {width, height} = useWindowDimensions();
     const center = vec(width / 2, height / 2);
     const [up, setUp] = useState(true);
 
-    const config = {
-        duration: 1000,
-    };
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            if(up) {
-                radius.value = withTiming(radius.value + 10, config);
-            }
-            else {
-                radius.value = withTiming(radius.value - 10, config);
-            }
-            console.log(radius.value)
-        }, 1000);
+        sharedRadius.value = withRepeat(withTiming(500, { duration: 3500 }), -1, true);
+    }, [sharedRadius]);
 
-    }, []);
+    useSharedValueEffect(() => {
+        radius.current = sharedRadius.value;
+    }, sharedRadius);
 
     return (
         <Canvas style={styles.canvas}>
             <Rect x={0} y={0} width={width} height={height}>
-            <RadialGradient
-                style={styles.gradient}
-                c={center}
-                r={radius.value}
-                colors={["#483475", "#070b34"]}
-                >
-            </ RadialGradient>
+                <RadialGradient
+                    style={styles.gradient}
+                    c={center}
+                    r={radius}
+                    colors={["#483475", "#070b34"]}
+                    >
+                </ RadialGradient>
             </Rect>
         </Canvas>
     );
