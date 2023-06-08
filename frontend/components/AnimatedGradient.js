@@ -1,48 +1,76 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { StyleSheet, View, Switch, useWindowDimensions } from 'react-native';
+import React, {useEffect, useCallback } from 'react';
+import { StyleSheet,  useWindowDimensions } from 'react-native';
 import { Canvas,
-         Rect, 
-         Skia, 
-         Shader, 
+         Rect,
+         Blend,
+         FractalNoise,
          RadialGradient,
          useValue,
          useSharedValueEffect,
-         vec,
-         mix
+         vec
 } from '@shopify/react-native-skia';
 import { useSharedValue,
        withTiming,
        withRepeat,
+       withDelay
 } from 'react-native-reanimated';
+import Particles from 'react-particles';
+import { loadStarsPreset } from 'tsparticles-preset-stars';
 
 export default function AnimatedGradient() {
     const radius = useValue(128);
     const sharedRadius = useSharedValue(128);
     const {width, height} = useWindowDimensions();
     const center = vec(width / 2, height / 2);
-    const [up, setUp] = useState(true);
+    const circleR = useValue(1);
+    const sharedCircleR = useSharedValue(0);
 
+    const options = {
+        background: {
+            opacity: 0,
+        },
+        preset: "stars",
+    };
+
+    const particlesInit = useCallback(async engine => {
+        console.log(engine);
+        // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
+        // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
+        // starting from v2 you can add only the features you need reducing the bundle size
+        await loadStarsPreset(engine);
+    }, []);
+
+    const particlesLoaded = useCallback(async container => {
+        await console.log(container);
+    }, []);
 
     useEffect(() => {
-        sharedRadius.value = withRepeat(withTiming(500, { duration: 3500 }), -1, true);
-    }, [sharedRadius]);
+        sharedRadius.value = withDelay(Math.random() * 1000, withRepeat(withTiming(800, { duration: 8000 }), -1, true));
+        sharedCircleR.value = withDelay(Math.random() * 1000, withRepeat(withTiming(1, { duration: 1000 }), -1, true));
+    }, [sharedRadius, sharedCircleR]);
 
     useSharedValueEffect(() => {
         radius.current = sharedRadius.value;
-    }, sharedRadius);
+        circleR.current = sharedCircleR.value;
+    }, sharedRadius, sharedCircleR);
 
     return (
-        <Canvas style={styles.canvas}>
-            <Rect x={0} y={0} width={width} height={height}>
-                <RadialGradient
-                    style={styles.gradient}
-                    c={center}
-                    r={radius}
-                    colors={["#483475", "#070b34"]}
-                    >
-                </ RadialGradient>
-            </Rect>
-        </Canvas>
+        <>
+            <Canvas style={styles.canvas}>
+                <Rect x={0} y={0} width={width} height={height}>
+                    <Blend mode="multiply">
+                    <RadialGradient
+                        style={styles.gradient}
+                        c={center}
+                        r={radius}
+                        colors={["#483475", "#070b34"]}
+                        />
+                    <FractalNoise freqX={0.01} freqY={0.01} octaves={4} />
+                    </Blend>
+                </Rect>
+            </Canvas>
+            <Particles options={options} init={particlesInit} loaded={particlesLoaded} />
+        </>
     );
     
 }

@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 16,
         paddingTop: '2%',
-        fontStyle: 'italic',
+        fontFamily: 'Quicksand',
     },
     responseText: {
         color: '#fff',

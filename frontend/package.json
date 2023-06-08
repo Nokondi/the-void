@@ -25,7 +25,11 @@
     "react-native-reanimated": "~2.14.4",
     "react-native-web": "~0.18.10",
     "react-native-zip-archive": "^6.0.9",
-    "socket.io-client": "^4.6.1"
+    "react-particles": "^2.10.1",
+    "socket.io-client": "^4.6.1",
+    "tsparticles": "^2.10.1",
+    "tsparticles-engine": "^2.10.1",
+    "tsparticles-preset-stars": "^2.10.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

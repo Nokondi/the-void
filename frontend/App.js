@@ -17,6 +17,7 @@ export default function App() {
 
     const [fontsLoaded] = useFonts({
         'Special-Elite': require('./assets/fonts/SpecialElite-Regular.ttf'),
+        'Quicksand': require('./assets/fonts/Quicksand-VariableFont_wght.ttf')
     });
 
     useEffect(() => {

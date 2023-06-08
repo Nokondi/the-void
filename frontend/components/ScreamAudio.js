@@ -128,7 +128,8 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 24,
         padding: '1%',
-        fontFamily: 'Special-Elite',
+        fontFamily: 'Quicksand',
         textAlign: 'center',
+        
     },
 });
