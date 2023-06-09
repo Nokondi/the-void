@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Switch } from 'react-native';
+import { StyleSheet, View, Switch, Text } from 'react-native';
 import { useFonts } from 'expo-font';
 import { WithSkiaWeb } from "@shopify/react-native-skia/lib/module/web";
+import * as SplashScreen from 'expo-splash-screen';
 
 import ScreamAudio from './components/ScreamAudio';
 import GazeAudio from './components/GazeAudio';
 import { socket } from './socket';
+
+SplashScreen.preventAutoHideAsync();
 
 export default function App() {
 
@@ -69,11 +72,23 @@ export default function App() {
         setScream(!scream);
     }
 
+    const backgroundComponent = () => import("./components/AnimatedGradient");
+
     return (
         
         <View style={styles.outerContainer}>
-            <WithSkiaWeb
-                getComponent={() => import("./components/AnimatedGradient")} />
+            <WithSkiaWeb getComponent={backgroundComponent} />
+            <View style={styles.navContainer} >
+                <View style={styles.navItem}>
+                    <Text style={styles.navText}>Welcome</Text>
+                </View>
+                <View style={styles.navItem}>
+                    <Text style={styles.navText}>Scream</Text>
+                </View>
+                <View style={styles.navItem}>
+                    <Text style={styles.navText}>Gaze</Text>
+                </View>
+            </View>
             <View style={styles.switchContainer}>
                 <Switch 
                     onValueChange={toggleSwitch}
@@ -98,6 +113,21 @@ const styles = StyleSheet.create({
 outerContainer: {
     flex: 1,
     justifyContent: 'center',
+},
+navContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+},
+navItem: {
+    flex: 1,
+    justifyContent: 'flex-start',
+},
+navText: {
+    color: '#fff',
+    textAlign: 'center',
+    fontFamily: 'Quicksand',
+    paddingTop: 10
 },
 switchContainer: {
     flex: 1/3,

@@ -29,7 +29,8 @@
     "socket.io-client": "^4.6.1",
     "tsparticles": "^2.10.1",
     "tsparticles-engine": "^2.10.1",
-    "tsparticles-preset-stars": "^2.10.1"
+    "tsparticles-preset-stars": "^2.10.1",
+    "expo-splash-screen": "~0.18.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
