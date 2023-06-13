@@ -40,12 +40,12 @@ export default function GazeAudio( {gaze_response} ) {
             <View style={styles.listContainer}>
                 <FlashList 
                     data={gaze_response}
+                    estimatedItemSize={200}
                     renderItem={({ item }) => 
                         <View style={styles.listItem}>
                             <Text style={styles.dateText}>{item['date']}</Text>
                             <PlayButton buttonText={"Play Scream"} onButtonPressed={() => playAudio(item['file'])} />
                         </View>}
-                    estimatedItemSize={200}
                 />
             </View>
         </View>

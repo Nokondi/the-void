@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Switch, Text } from 'react-native';
+import { StyleSheet, View, Switch, Text, Pressable } from 'react-native';
 import { useFonts } from 'expo-font';
 import { WithSkiaWeb } from "@shopify/react-native-skia/lib/module/web";
 import * as SplashScreen from 'expo-splash-screen';
 
+
 import ScreamAudio from './components/ScreamAudio';
 import GazeAudio from './components/GazeAudio';
+import Welcome from './components/Welcome';
 import { socket } from './socket';
 
 SplashScreen.preventAutoHideAsync();
@@ -14,9 +16,9 @@ SplashScreen.preventAutoHideAsync();
 export default function App() {
 
     const [isConnected, setIsConnected] = useState(socket.connected);
-    const [scream, setScream] = useState(true);
     const [response, setResponse] = useState('');
     const [gazes, setGazes] = useState([]);
+    const [page, setPage] = useState('welcome');
 
     const [fontsLoaded] = useFonts({
         'Special-Elite': require('./assets/fonts/SpecialElite-Regular.ttf'),
@@ -65,11 +67,11 @@ export default function App() {
         };
     }, [])
 
-    const toggleSwitch = () => {
-        if (!scream) {
+    const pageSwitch = (newPage) => {
+        if (newPage==='gaze') {
             setGazes([]);
         }
-        setScream(!scream);
+        setPage(newPage);
     }
 
     const backgroundComponent = () => import("./components/AnimatedGradient");
@@ -79,31 +81,23 @@ export default function App() {
         <View style={styles.outerContainer}>
             <WithSkiaWeb getComponent={backgroundComponent} />
             <View style={styles.navContainer} >
-                <View style={styles.navItem}>
+                <Pressable style={styles.navItem} onPress={() => pageSwitch('welcome')}>
                     <Text style={styles.navText}>Welcome</Text>
-                </View>
-                <View style={styles.navItem}>
+                </Pressable>
+                <Pressable style={styles.navItem} onPress={() => pageSwitch('scream')}>
                     <Text style={styles.navText}>Scream</Text>
-                </View>
-                <View style={styles.navItem}>
+                </Pressable>
+                <Pressable style={styles.navItem} onPress={() => pageSwitch('gaze')}>
                     <Text style={styles.navText}>Gaze</Text>
-                </View>
+                </Pressable>
             </View>
-            <View style={styles.switchContainer}>
-                <Switch 
-                    onValueChange={toggleSwitch}
-                    value={scream}
-                    trackColor={{false: '#2F3237', true: '#2F3237'}}
-                    thumbColor={scream ? '#5B639A' : '#5B639A'}
-                    ios_backgroundColor="#2F3237"
-                    activeThumbColor="#5B639A"
-                />
-            </View>
-            {scream ? (
-                <ScreamAudio scream_response={response} />
-            ) : (
-                <GazeAudio gaze_response={gazes} />
-            )}
+            {
+                {
+                    'welcome': <Welcome />,
+                    'scream': <ScreamAudio scream_response={response} />,
+                    'gaze': <GazeAudio gaze_response={gazes} />
+                }[page]
+            }
             <StatusBar style="auto" />
         </View>
     );
@@ -115,13 +109,13 @@ outerContainer: {
     justifyContent: 'center',
 },
 navContainer: {
-    flex: 1,
+    flex: 1/8,
     flexDirection: 'row',
     justifyContent: 'center',
 },
 navItem: {
     flex: 1,
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
 },
 navText: {
     color: '#fff',
