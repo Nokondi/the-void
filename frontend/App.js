@@ -105,11 +105,12 @@ export default function App() {
 
 const styles = StyleSheet.create({
 outerContainer: {
-    flex: 1,
+    width: "100%",
+    height: "100%",
     justifyContent: 'center',
 },
 navContainer: {
-    flex: 1/8,
+    height: 80,
     flexDirection: 'row',
     justifyContent: 'center',
 },

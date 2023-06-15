@@ -4,9 +4,7 @@ import { Pressable, StyleSheet, Text } from 'react-native';
 export default function RecordButton({onRecordPressed}) {
 
     return (
-        <Pressable style={styles.recordButton} onPress={onRecordPressed}>
-            <Text style={styles.buttonText}></Text>
-        </Pressable>
+        <Pressable style={styles.recordButton} onPress={onRecordPressed}/>
     );
 }
 
@@ -16,9 +14,9 @@ const styles = StyleSheet.create({
         height: 80,
         borderRadius: 40,
         backgroundColor: '#5B639A',
-        borderWidth: 10,
+        borderWidth: 5,
         borderStyle: 'solid',
-        borderColor: '#422B4F',
+        borderColor: '#fff',
         margin: 20,
         alignContent: 'center',
     },
