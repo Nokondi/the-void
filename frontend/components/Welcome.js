@@ -28,23 +28,23 @@ export default function Welcome() {
                     get off of your chest. However you choose to confront The Void, know that you are not alone.</p>
 
                 <h2>If You Need Help</h2>
-                <p>If you are in crisis and need help, there are resources available. Remember that everyone needs 
-                    assistance at some point. No one is perfect. No one can do everything on their own. There is no 
-                    shame in admitting that you are struggling and seeking help. The following list of free mental
-                    health resources is not exhaustive, but is a good place to start:&nbsp; 
+                <p>If you are in crisis and need help, there are resources available. Remember that we all need other
+                    people at some point. No one is perfect. No one can do everything on their own. There is no 
+                    shame in admitting that you are struggling, and there is no shame in asking for support. The 
+                    following list of free mental health resources is not exhaustive, but is a good place to start:&nbsp; 
                     <Text style={{color: "#99DBF5"}} onPress={() => Linking.openURL("https://www.cdc.gov/mentalhealth/tools-resources/index.htm")}>
                         Centers for Disease Control and Prevention Mental Health Tools and Resources</Text></p>
 
                 <h2>The Void in Philosophy and Religion</h2>
                 <p>During my time as an English major (and later teacher), I read a lot of philosophy. 
-                    In particular, I was enamored with Buddhism and Existentialism, two very distinct ideologies 
+                    In particular, I fell in love with Buddhism and Existentialism, two very distinct ideologies 
                     that nevertheless have a connection in their perspective on the void. In much of Western philosophy 
                     and theology, emptiness, void, or nothing has negative connotations: the void is a place of darkness 
                     and the unknown, and the unknown is something to be feared; humans have a void in ourselves that we 
                     seek to fill with spirituality or pleasure or possessions; to do nothing is to invite evil into your 
                     life ("idle hands are the devil's playthings"); it is the pessimist who points out the emptiness 
                     in the glass. Buddhism and (much later) Existentialism present a different perspective on the void 
-                    or nothingness: to be content with nothingness is to be free, uncontrolled by possessions or desire; 
+                    or nothingness: to be accept nothingness is to be free, uncontrolled by possessions or desire; 
                     idleness is time for quiet reflection; emptiness is potential: the medium of change and the space 
                     into which we grow and evolve.</p>
 
@@ -57,12 +57,24 @@ export default function Welcome() {
                     of self. Examining and understanding the void within all things is not seen as nihilistic, but rather 
                     as a profound insight that allows individuals to transcend suffering and perceive the world more clearly.</p>
 
-                <p>For the Existentialist, there is no inherent or predetermined meaning that suffuses reality. This void of 
-                    intrinsic meaning can be seen as a source of dread and anxiety; however, this absence also provides us the space 
-                    to create our own meaning and purpose in life. It is only through an acknowledgment of this inherent nothingness 
-                    that humans have the capacity to make choices and take responsibility for their actions. Existentialists encourage 
-                    individuals to confront the void and embrace their freedom, finding meaning through personal experiences, relationships, 
-                    and the pursuit of authentic existence.</p>
+                <p>For the existentialist, there is no inherent or predetermined meaning that suffuses reality. Our consciousness 
+                    is born from nothingness and returns to oblivion after death. This void of intrinsic meaning can be seen as a 
+                    source of dread and anxiety; however, this absence also provides us the space to create our own meaning and 
+                    purpose in life. Like the Buddhist, the existentialist finds connection in the void - it is the no-thing
+                    that unites human experience: our mortality - the fragile, ephemeral nature of our consciousness in a void
+                    that stretches backward and forward into infinity. It is only through an acknowledgment of the nothingness
+                    around us and within us that humans have the capacity to make choices and take responsibility for their 
+                    actions, defining ourselves every second of every day through our interactions with our world and other
+                    finite beings. Existentialists encourage individuals to confront the void by embracing this freedom, 
+                    finding meaning through personal experiences, relationships, and the pursuit of authentic existence.</p>
+
+                <p>I find both of these ideologies compelling, particularly in a world that is constantly trying to divert
+                    our attention away from the void. Capitalism is driven by the materialistic desire to fill every void
+                    (temporal and spatial) with stuff. It is fueled by fear of the void, "Buy X because you aren't enough,
+                    because you are growing older, because you don't have enough time, because you will die." Also, "Work
+                    harder because you are one mistake away from losing everything and because you need to buy X." 
+
+                </p>
             </Text>
         </View>
     );
