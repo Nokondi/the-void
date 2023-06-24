@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Switch, Text, Pressable } from 'react-native';
+import { StyleSheet, View, Text, Pressable } from 'react-native';
 import { useFonts } from 'expo-font';
 import { WithSkiaWeb } from "@shopify/react-native-skia/lib/module/web";
 import * as SplashScreen from 'expo-splash-screen';
