@@ -20,7 +20,7 @@ services:
       - NODE_ENV=production
     volumes:
       - ./frontend/web-build:/opt/the-void/web-build
-    command: npx expo export:web
+    command: npx expo export -p web
 
   nginx:
     container_name: nginx
